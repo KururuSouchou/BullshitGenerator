@@ -11,7 +11,7 @@ after = data['after']  # 在名人名言后面弄点废话
 shit_start = data['bosh_start']
 shit = data['bosh']  # 代表文章主要废话来源
 
-title = "來點廢話"
+title = "废话"
 
 repeat = 2
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     xx = input("请输入文章主题: ")
     length = int(input("字數: "))
     total = 0
-    tmp = str('    ')
+    tmp = str("    ")
     while (len(tmp) < length):
         conditiion = random.randint(0, 100)
         conditiion1 = random.randint(0, 100)

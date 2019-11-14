@@ -2,6 +2,7 @@ import os
 import re
 import random
 import readJSON
+from docx import Document
 
 
 data = readJSON.read_json("data.json")
@@ -48,21 +49,45 @@ def another_paragraph():
 if __name__ == "__main__":
     xx = input("请输入文章主题: ")
     length = int(input("字數: "))
+    fn = input('文件名: ')
+    eles = input('具备元素，支持多个，半角空格隔开: ').split()
     total = 0
-    tmp = str("    ")
-    while (len(tmp) < length):
+    # tmp = str("    ")
+    tmp = Document()
+    tmp.add_heading(xx, 0)
+    p = tmp.add_paragraph()
+    while (total < length):
         conditiion = random.randint(0, 100)
         conditiion1 = random.randint(0, 100)
-        if conditiion < 5:
-            tmp += another_paragraph()
-        elif conditiion < 20:
+        if conditiion < 20:
+            # tmp += another_paragraph()
+            if len(p.text) > 0:
+                p = tmp.add_paragraph()
+        elif conditiion < 40:
+            s = ''
             if conditiion1 < 40:
-                tmp += next(next_shit_start)
-            tmp += add_idiom()
+                s += next(next_shit_start)
+                
+            s += add_idiom()
+            if eles:
+                s = s.replace("x", random.choice(eles))
+            else:
+                s = s.replace("x", xx)
+            total += len(s)
+            # tmp += s
+            p.add_run(s)
         else:
-            if conditiion1 < 40:
-                tmp += next(next_shit_start)
-            tmp += next(next_shit)
-    tmp = tmp.replace("x", xx)
-    total += len(tmp)
-    print(tmp)
+            s = ''
+            if conditiion1 < 60:
+                s += next(next_shit_start)
+            s += next(next_shit)
+            if eles:
+                s = s.replace("x", random.choice(eles))
+            else:
+                s = s.replace("x", xx)
+            total += len(s)
+            # tmp += s
+            p.add_run(s)
+    #tmp = tmp.replace("x", xx)
+    #print(tmp)
+    tmp.save('{}.docx'.format(fn))
